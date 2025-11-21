@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel ="stylesheet" href = "style4.css">
+    <title>Validation Form </title>
+
+    
+</head>
+<body>
+
+    <div class="container">
+        <h2>Contact Form</h2>
+        <div id="successMsg" class="success"></div>
+
+        <form id="contactForm">
+            <label>Name</label>
+            <input type="text" id="name">
+            <div id="nameError" class="error"></div>
+
+            <label>Email</label>
+            <input type="text" id="email">
+            <div id="emailError" class="error"></div>
+
+            <label>Message</label>
+            <textarea id="message" rows="4"></textarea>
+            <div id="messageError" class="error"></div>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+<script>
+    const form = document.getElementById("contactForm");
+    const successMsg = document.getElementById("successMsg");
+
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();  // Prevent reload
+
+        let valid = true;
+
+        // Input Values
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const message = document.getElementById("message").value.trim();
+
+        // Error Elements
+        const nameErr = document.getElementById("nameError");
+        const emailErr = document.getElementById("emailError");
+        const msgErr = document.getElementById("messageError");
+
+        // Clear old errors
+        nameErr.textContent = "";
+        emailErr.textContent = "";
+        msgErr.textContent = "";
+        successMsg.textContent = "";
+
+        // Name validation
+        if (name === "") {
+            nameErr.textContent = "Name cannot be empty";
+            valid = false;
+        }
+
+        // Email validation with Regex
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (email === "") {
+            emailErr.textContent = "Email cannot be empty";
+            valid = false;
+        } else if (!emailRegex.test(email)) {
+            emailErr.textContent = "Invalid email format";
+            valid = false;
+        }
+
+        // Message validation
+        if (message === "") {
+            msgErr.textContent = "Message cannot be empty";
+            valid = false;
+        } else if (message.length < 5) {
+            msgErr.textContent = "Message is too short";
+            valid = false;
+        }
+
+        // If all valid — show success
+        if (valid) {
+            successMsg.textContent = "Message sent successfully!";
+            form.reset();  // Clear form inputs
+        }
+    });
+</script>
+
+</body>
+</html>
